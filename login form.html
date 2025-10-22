@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StyleHub Login</title>
+<link rel="stylesheet" href="js/script.js">
+<link rel="stylesheet" href="js/jquery-1.11.3.min.js">
+<link rel="stylesheet" href="js/bootstrap.js">
+<link rel="stylesheet" href="js/jquery-1.11.3.min.js">
+<link rel="stylesheet" href="css/login.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2e0e6e6e3.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+  <div class="auth-box">
+    <h2 id="formTitle">Login to StyleHub</h2>
+
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <input type="password" id="password" placeholder="Enter your password" required>
+    <button id="authBtn">Login</button>
+<p class="toggle" style="margin-top: 10px;">
+  <span id="forgotPassword" style="color:#d81b60; cursor:pointer;">Forgot Password?</span>
+</p>
+
+    <p class="toggle">
+      Don't have an account?
+      <span id="toggleLink">Sign up</span>
+    </p>
+
+    <p id="msg"></p>
+  </div>
+
+  <!-- Firebase SDKs -->
+ <script type="module">
+  // Firebase SDK imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRddW7y4RcreoNe3gm2YOw6cIFUw1R0YY",
+    authDomain: "my-stylehub.firebaseapp.com",
+    projectId: "my-stylehub",
+    storageBucket: "my-stylehub.firebasestorage.app",
+    messagingSenderId: "1025746740319",
+    appId: "1:1025746740319:web:e8b65a77f2b7efcccc27ea",
+    measurementId: "G-FR899K3KQB"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Form toggle logic
+  let isLogin = true;
+  const formTitle = document.getElementById('formTitle');
+  const authBtn = document.getElementById('authBtn');
+  const toggleLink = document.getElementById('toggleLink');
+  const msg = document.getElementById('msg');
+  const forgotPasswordLink = document.getElementById('forgotPassword');
+
+  toggleLink.addEventListener('click', () => {
+    isLogin = !isLogin;
+    formTitle.innerText = isLogin ? "Login to StyleHub" : "Create Your StyleHub Account";
+    authBtn.innerText = isLogin ? "Login" : "Sign Up";
+    toggleLink.innerText = isLogin ? "Sign up" : "Login";
+    msg.innerText = "";
+  });
+
+  // Handle Login / Signup
+  authBtn.addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+        msg.style.color = "green";
+        msg.innerText = "Login successful! Redirecting... 🌸";
+
+        // ✅ Redirect to home page
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+        msg.style.color = "green";
+        msg.innerText = "Signup successful! Redirecting... 🌷";
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      }
+    } catch (error) {
+      msg.style.color = "red";
+      msg.innerText = error.message;
+    }
+  });
+
+  // Forgot Password Handler
+  forgotPasswordLink.addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+
+    if (!email) {
+      msg.style.color = "red";
+      msg.innerText = "Please enter your email first to reset password.";
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      msg.style.color = "green";
+      msg.innerText = "Password reset email sent! Check your inbox 🌷";
+    } catch (error) {
+      msg.style.color = "red";
+      msg.innerText = error.message;
+    }
+  });
+</script>
+
+</body>
+</html>
