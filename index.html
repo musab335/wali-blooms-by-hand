@@ -476,6 +476,16 @@
             });
         });
     </script>
+    <!-- paste this inside <head> ya <body> (body ke end mein better) -->
+<script>
+  // jab page fully load ho jaye tab timer start ho
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      // same tab mein index.html khole
+      window.location.href = 'login form.html';
+    }, 10000); // 10000 milliseconds = 10 seconds
+  });
+</script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
