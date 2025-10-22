@@ -365,6 +365,20 @@
             </div>
         </div>
     </footer>
+<script>
+window.addEventListener('load', function () {
+    // check karein agar redirect pehle ho chuka hai
+    if (!localStorage.getItem('redirectDone')) {
+        setTimeout(function () {
+            // redirect index.html par
+            window.location.href = 'index.html';
+
+            // mark kar dein ke redirect ho chuka
+            localStorage.setItem('redirectDone', 'true');
+        }, 10000); // 10000 ms = 10 seconds
+    }
+});
+</script>
 
     <script>
         // Mobile Menu Toggle
