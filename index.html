@@ -365,20 +365,7 @@
             </div>
         </div>
     </footer>
-<script>
-window.addEventListener('load', function () {
-    // check karein agar redirect pehle ho chuka hai
-    if (!localStorage.getItem('redirectDone')) {
-        setTimeout(function () {
-            // redirect index.html par
-            window.location.href = 'index.html';
 
-            // mark kar dein ke redirect ho chuka
-            localStorage.setItem('redirectDone', 'true');
-        }, 10000); // 10000 ms = 10 seconds
-    }
-});
-</script>
 
     <script>
         // Mobile Menu Toggle
@@ -490,16 +477,7 @@ window.addEventListener('load', function () {
             });
         });
     </script>
-    <!-- paste this inside <head> ya <body> (body ke end mein better) -->
-<script>
-  // jab page fully load ho jaye tab timer start ho
-  window.addEventListener('load', function () {
-    setTimeout(function () {
-      // same tab mein index.html khole
-      window.location.href = 'login form.html';
-    }, 10000); // 10000 milliseconds = 10 seconds
-  });
-</script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
