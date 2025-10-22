@@ -32,9 +32,10 @@
               </a>
        
             </li>
-            <li style="color: red;">
-               <a href="login form.html"><strong>Sign up/Login</strong></a>
-            </li>
+       <li id="userMenu" style="color: red;">
+  <a href="login form.html" id="authLink"><strong>Sign up/Login</strong></a>
+</li>
+
                 </ul>
                 
                 <div class="nav-actions">
@@ -471,6 +472,55 @@
             });
         });
     </script>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRddW7y4RcreoNe3gm2YOw6cIFUw1R0YY",
+    authDomain: "my-stylehub.firebaseapp.com",
+    projectId: "my-stylehub",
+    storageBucket: "my-stylehub.firebasestorage.app",
+    messagingSenderId: "1025746740319",
+    appId: "1:1025746740319:web:e8b65a77f2b7efcccc27ea",
+    measurementId: "G-FR899K3KQB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // HTML elements
+  const userMenu = document.getElementById('userMenu');
+  const authLink = document.getElementById('authLink');
+
+  // 🔥 Listen for login/logout changes
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userName = user.displayName || user.email.split('@')[0];
+      userMenu.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;">
+          <img src="${user.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}" 
+               width="25" height="25" style="border-radius:50%;">
+          <span>${userName}</span>
+          <button id="logoutBtn" style="margin-left:10px;padding:3px 6px;border:none;background:#e74c3c;color:white;border-radius:5px;cursor:pointer;">Logout</button>
+        </div>
+      `;
+
+      // Logout click handler
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        await signOut(auth);
+        window.location.reload();
+      });
+
+    } else {
+      // User not logged in — show login link
+      userMenu.innerHTML = `
+        <a href="login form.html"><strong>Sign up/Login</strong></a>
+      `;
+    }
+  });
+</script>
+
 </body>
 
 
